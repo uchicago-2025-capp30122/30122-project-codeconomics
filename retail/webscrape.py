@@ -37,6 +37,6 @@ def make_request(url):
     # comment
     time.sleep(REQUEST_DELAY)
     print(f"Fetching {url}")
-    resp = httpx.get(url)
+    resp = httpx.get(url, headers=headers)
     resp.raise_for_status()
     return resp
