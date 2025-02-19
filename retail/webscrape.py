@@ -13,7 +13,7 @@ def make_request(url):
     This function ensure that the domain matches what is expected
     and that the rate limit is obeyed.
     """
-    
+    # comment
     time.sleep(REQUEST_DELAY)
     print(f"Fetching {url}")
     resp = httpx.get(url)
