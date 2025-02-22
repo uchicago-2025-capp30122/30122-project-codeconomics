@@ -1,6 +1,9 @@
 import httpx
+import csv
 
-def make_request(url, api_key):
+url = 'https://api.census.gov/data/2023/acs/acs5?get=NAME,GEO_ID,B06011_001E&for=zip%20code%20tabulation%20area:*&key='    
+
+def get_census_data(api_key):
     """
     Make a request to `url` and return the raw response.
 
@@ -8,11 +11,11 @@ def make_request(url, api_key):
     and that the rate limit is obeyed.
     """
 
-    url = f"https://api.census.gov/data/2022/cbp?get=NAME,NAICS2017_LABEL,ESTAB,PAYANN,PAYQTR1,EMP&key={api_key}"
-
-    
+    census_link = f'{url}{api_key}'
     print(f"Fetching {url}")
-    resp = httpx.get(url)
+    resp = httpx.get(census_link)
     resp.raise_for_status()
-    return resp
 
+    with open('retail/data/median_income.csv', 'w') as file:
+        writer = csv.writer(file)
+        writer.writerows(resp.json())
