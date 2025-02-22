@@ -1,8 +1,46 @@
-# Project Repository Template
+# Businesses Outlook and Economic Trends in Windy City by Codeconomics
 
-This template is intentionally mostly empty, to give you experience starting a project from scratch.
+## Members
 
-A good first command would be to run `uv init` and add some libraries and tools that you are using.
+- Hilman Hanivan <hanivan@uchicago.edu>
+- Jorge Guerrero <jguerrero95@uchicago.edu>
 
-Before the final milestone submission, you will need to replace this file with a README as described here: https://capp30122.netlify.app/coursework/project/#readmemd
+## Abstract
+
+This project aims to analyze businesses outlook trends in Chicago using data from businesses licenses data and crime events from the Chicago Data Portal (https://data.cityofchicago.org) and median income data from the US Census Bureau (https://www.census.gov).
+Our goal is to provide insights for policymakers on understanding businesses trends in the city of Chicago, by analizing different zipcodes and industries. 
+
+
+## Data Sources
+
+### Data Reconciliation Plan
+
+### Data Source #1: Business Licenses
+Business licenses issued by the Department of Business Affairs and Consumer Protection in the City of Chicago from 2002 to the present.
+
+- **URL**: https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr/about_data
+- **Type**: API
+            This is a public database taht can be requested via API without a APP_KEY
+- **Unique key**: Zip Code
+
+
+### Data Source #2: American Community Survey (ACS)   
+The American Community Survey (ACS) is an ongoing survey that provides vital information on a yearly basis about USA population. Information from the survey generates data that help inform how trillions of dollars in federal funds are distributed each year. The ACS provies information on jobs and occupations, educational attainment, veterans, whether people own or rent their homes, and other topics. We retrieve median income data by zip code from this source.
+
+- **URL**: https://www.census.gov/programs-surveys/acs
+- **Type**: API 
+    The user must get an API Key from the US Census Bureau in:  https://api.census.gov/data/key_signup.html
+- **Unique key**: Zip Code
+
+### Data Source #3: Crimes - 2001 to Present
+This dataset reflects reported incidents of crime (with the exception of murders where data exists for each victim) that occurred in the City of Chicago from 2001 to present, minus the most recent seven days. From this source we will aggregate number of events by zip code.
+
+- **URL**: https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2/about_data
+- **Type**: API
+            This is a public database taht can be requested via API without a APP_KEY
+- **Unique key**: Zip Code (after cleaning)
+
+## How to Run
+
+Step 1) Run `uv sync` to sincronize the libraries.
 
