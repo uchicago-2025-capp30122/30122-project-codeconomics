@@ -10,3 +10,6 @@ def make_hist(series, col):
     # Create Histogram
     fig = px.histogram(series, x=col, title=f'Histogram of {col}')
     fig.show()
+
+if __name__ == '__main__':
+    make_hist(data_income, 'med_income')

@@ -1,7 +1,7 @@
 [project]
-name = "retail"
+name = "business"
 version = "0.1.0"
-description = "Retail Space Recommender"
+description = "Business Outlook in Windy City"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -11,6 +11,7 @@ dependencies = [
   "ipdb>=0.13.13",
   "ipython>=8.27.0",
   "pandas>=2.2.3",
+  "plotly>=6.0.0",
   "polars>=1.21.0",
   "pyarrow>=19.0.0",
   "pyshp>=2.3.1",
