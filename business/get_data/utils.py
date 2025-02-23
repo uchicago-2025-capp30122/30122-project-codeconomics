@@ -1,3 +1,4 @@
+# 60643 and 60707 appears twice!
 ZIP_CODES = [
     "60647",
     "60639",

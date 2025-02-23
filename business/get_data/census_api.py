@@ -1,5 +1,6 @@
 import httpx
 import csv
+from .utils import ZIP_CODES
 
 url = 'https://api.census.gov/data/2023/acs/acs5?get=B06011_001E&for=zip%20code%20tabulation%20area:*&key='    
 
@@ -14,6 +15,8 @@ def get_census_data(api_key):
     resp = httpx.get(census_link)
     resp.raise_for_status()
 
-    with open('retail/data/median_income.csv', 'w') as file:
+    with open('business/data/median_income.csv', 'w') as file:
         writer = csv.writer(file)
-        writer.writerows(resp.json())
+        writer.writerow(['med_income','zip_code'])
+        filtered_rows = (row for row in resp.json()[1:] if row[1] in ZIP_CODES)
+        writer.writerows(filtered_rows)

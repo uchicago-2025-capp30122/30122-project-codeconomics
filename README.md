@@ -25,7 +25,7 @@ Business licenses issued by the Department of Business Affairs and Consumer Prot
 
 
 ### Data Source #2: American Community Survey (ACS)   
-The American Community Survey (ACS) is an ongoing survey that provides vital information on a yearly basis about USA population. Information from the survey generates data that help inform how trillions of dollars in federal funds are distributed each year. The ACS provies information on jobs and occupations, educational attainment, veterans, whether people own or rent their homes, and other topics. We retrieve median income data by zip code from this source.
+The American Community Survey (ACS) is an ongoing survey that provides vital information on a yearly basis about USA population. Information from the survey generates data that help inform how trillions of dollars in federal funds are distributed each year. The ACS provies information on jobs and occupations, educational attainment, veterans, whether people own or rent their homes, and other topics. We retrieve median income data by zip code from this source. After closer examination, there exists one zipcode (60666) missing from this dataset. That being said, we have median income estimates for 58 zipcodes in Chicago!
 
 - **URL**: https://www.census.gov/programs-surveys/acs
 - **Type**: API 
@@ -37,8 +37,14 @@ This dataset reflects reported incidents of crime (with the exception of murders
 
 - **URL**: https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2/about_data
 - **Type**: API
-            This is a public database taht can be requested via API without a APP_KEY
+            This is a public database that can be requested via API without a APP_KEY
 - **Unique key**: Zip Code (after cleaning)
+
+### Data Source #4: Zipcode Boundaries 
+This dataset contains 62 rows of polygons of zipcodes in Chicago. However, after close examination, there two zipcodes appear twice from the original source (60643 and 60707). That being said, we only have 59 zipcodes in Chicago! 
+
+- **URL**: https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-ZIP-Codes-Map/gdcf-axmw
+
 
 ## How to Run
 
