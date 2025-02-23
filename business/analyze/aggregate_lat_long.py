@@ -1,30 +1,62 @@
-from .utils import ZIP_CODES
-import pathlib as Path
+import pathlib
+import json
 import csv
-import os
+from shapely.geometry import Point, Polygon
+from shapely.wkt import loads
 
-def get_chicago_by_zipcode(path):
+path_data = pathlib.Path(__file__).parent.parent / 'data'
+
+def basic_spatial_join():
     """
-    Import csv that still contains data from outside Chicago Zipcodes
+    Loads boundaries.csv and crime.json, then return the aggregate crime
+    event happening per zipcodes
     Return:
-    a list of dictionaries of zipcode and its income
+    (dict) keys: zipcode, value: total crime
     """
-    try:
-        path = Path(script_dir = os.path.dirname(__file__)).parent / 'data/median_income.csv'
-    except Exception:
-        print('use user input')
-        
-    list_to_return = []
-    with open(path, 'r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            if str(row['zip code tabulation area']) in ZIP_CODES:
-                list_to_return.append({'zip code':row['zip code tabulation area'],
-                                       'income': row['B06011_001E']})    
-    return list_to_return
 
-def get_aggregate_by_latlong(path):
-    pass
+    crimes = load_crime()
+    zipcodes = load_zipcodes()
+
+    crime_dict = dict.fromkeys([zc[0] for zc in zipcodes],0)
+
+    for crime in crimes:
+        crime_point = crime[1]
+        for zc in zipcodes:
+            # Only grab the tract that contains the point
+            if zc[1].contains(crime_point):
+                crime_dict[zc[0]] += 1
+
+    return crime_dict
+
+def load_crime():
+    """
+    load crime.json and return a list of (data, Point)
+    """
+    list_crime = []
+    
+    with open(path_data / 'crime.json', 'r') as file:
+        data = json.load(file)
+        for crime in data:
+            if crime.get('longitude','empty') != 'empty':
+                long, lat = crime['longitude'], crime['latitude']
+                list_crime.append((crime['date'], Point(long, lat)))
+    
+    return list_crime
+
+def load_zipcodes():
+    """
+    load boundaries.csv and return a list of (zip code, Polygon)
+    """
+
+    list_zipcode = []
+
+    with open(path_data / 'boundaries.csv', 'r') as file:
+        data = csv.DictReader(file)
+        for row in data:
+            list_zipcode.append((row['ZIP'], loads(row['the_geom'])))
+
+    return list_zipcode
+    
 
 
         
