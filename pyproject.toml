@@ -10,6 +10,7 @@ dependencies = [
   "httpx>=0.28.1",
   "ipdb>=0.13.13",
   "ipython>=8.27.0",
+  "lifelines>=0.30.0",
   "pandas>=2.2.3",
   "plotly>=6.0.0",
   "polars>=1.21.0",
