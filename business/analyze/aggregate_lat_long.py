@@ -1,32 +1,40 @@
 import pathlib
 import json
 import csv
-from shapely.geometry import Point, Polygon
+import pandas as pd
+from shapely.geometry import Point
 from shapely.wkt import loads
 
 path_data = pathlib.Path(__file__).parent.parent / 'data'
 
-def basic_spatial_join():
+def aggregate_by_zipcode():
     """
-    Loads boundaries.csv and crime.json, then return the aggregate crime
-    event happening per zipcodes
-    Return:
-    (dict) keys: zipcode, value: total crime
+    Load the list of dictionaries of all crime events with its zipcode
+    then create an aggregate count by zipcode by of total event and total only
+    for theft type crime, in the form of csv
+    """
+    df = pd.DataFrame(get_zipcode_from_point())
+    crime_counts = df.groupby('zip_code').size().reset_index(name='total_crime')
+    theft_counts = df[df['crime_type'] == 'THEFT'].groupby('zip_code').size().reset_index(name='total_theft')
+    result = crime_counts.merge(theft_counts, on='zip_code', how='left').fillna(0)
+    result.to_csv(path_data / 'crime.csv', index=False)
+
+
+def get_zipcode_from_point():
+    """
+    Loads boundaries.csv and crime.json, then return the list of dictionaries 
+    of crime case with zipcode identifier!
     """
 
     crimes = load_crime()
     zipcodes = load_zipcodes()
 
-    crime_dict = dict.fromkeys([zc[0] for zc in zipcodes],0)
-
     for crime in crimes:
-        crime_point = crime[1]
-        for zc in zipcodes:
-            # Only grab the tract that contains the point
-            if zc[1].contains(crime_point):
-                crime_dict[zc[0]] += 1
-
-    return crime_dict
+        for zip_code, poly in zipcodes:
+            if poly.contains(crime['point']):
+                crime['zip_code'] = zip_code
+    
+    return crimes
 
 def load_crime():
     """
@@ -34,13 +42,15 @@ def load_crime():
     """
     list_crime = []
     
-    with open(path_data / 'crime.json', 'r') as file:
+    with open(path_data / 'crime_.json', 'r') as file:
         data = json.load(file)
         for crime in data:
-            if crime.get('longitude','empty') != 'empty':
+            long_exist = crime.get('longitude','empty') != 'empty'
+            year_2024 = crime.get('date','empty')[0:4] == '2024'
+            if long_exist and year_2024:
                 long, lat = crime['longitude'], crime['latitude']
-                list_crime.append((crime['date'], Point(long, lat)))
-    
+                list_crime.append({'crime_type':crime['primary_type'],
+                                   'point':Point(long, lat)})    
     return list_crime
 
 def load_zipcodes():
