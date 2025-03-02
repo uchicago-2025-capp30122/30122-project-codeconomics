@@ -1,7 +1,7 @@
 from lifelines import KaplanMeierFitter
 from matplotlib import pyplot
-from business.analyze import merge_data_survival
-from business.get_data import LICENSE_DESCRIPTION_FOCUS
+from .merge_data import merge_data_survival
+from business.get_data.utils import LICENSE_DESCRIPTION_FOCUS
 
 def survival_kmf():
     """
@@ -28,7 +28,7 @@ def survival_kmf():
     # Return KaplanMeierFitter object
     #print("Surv function:\n", business_kmf.survival_function_)
     #print("Median operating time:\n", business_kmf.median_survival_time_)
-    
+
     return business_kmf
 
 

@@ -20,7 +20,7 @@ def operating_time(licenses_data: Path, date_filter = True):
         final_date=("expiration_date", "max")
         ).reset_index()
 
-    # (OPTIONAL) filter data for initial date greater than 2020
+    # filter data for initial date greater than 2020
     if date_filter:
         licenses_dur = licenses_dur[licenses_dur.initial_date >= "2020-01-01"]
 
@@ -34,6 +34,10 @@ def operating_time(licenses_data: Path, date_filter = True):
         else (today - row["initial_date"]).days, 
         axis=1
     )
+
+    # filter cases that are inconsistent from the data source 
+    # (earlier expiration dates than date of issue, 297 cases of 34,343)
+    licenses_dur = licenses_dur[(licenses_dur.duration>0)]
 
     # make a df with unique characteristics by license_number and join it
 
