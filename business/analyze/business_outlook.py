@@ -1,9 +1,33 @@
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from .aggregate_lat_long import load_zipcodes
 
 # define data path
 data_path = Path(__file__).parent.parent / "data"
+
+def get_macro_table():
+
+    # Load polygons
+    data_polygon = pd.DataFrame(load_zipcodes(), columns = ['zip_code','polygon'])
+    data_polygon['zip_code'] = data_polygon['zip_code'].astype(int)
+
+    # Load Macro variables:
+    data_crime = pd.read_csv(data_path / "crime.csv")
+    data_income = pd.read_csv(data_path / "median_income.csv")
+    macro_table = data_income.merge(data_crime, how='left', on='zip_code')
+    macro_table['crime_rate'] = macro_table['total_crime']*1000/macro_table['population_size']
+    macro_table['theft_rate'] = macro_table['total_theft']*1000/macro_table['population_size']
+
+    # Load data business
+    data_business = calculate_changes_business()
+
+    # Merge!    
+    macro_table = macro_table.merge(data_business, how='left', on='zip_code')
+    final_table = data_polygon.merge(macro_table, how='left', on='zip_code').reset_index()
+
+    return final_table
+
 
 def calculate_changes_business(year=2024):
     """
