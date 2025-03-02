@@ -4,7 +4,9 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 import pathlib
+from business.analyze.business_outlook import calculate_changes_business
 from business.viz.plots import create_scatter_plot
+from business.viz.business_time_series import df_time_series, month_range, create_maps, business_time_series
 
 path_data = pathlib.Path(__file__).parent.parent / 'business/data'
 
@@ -14,17 +16,19 @@ app = Dash(__name__)
 # Set random seed for reproducibility
 np.random.seed(42)
 
+# Load Data Scatter
 df_scatter = pd.read_csv(path_data / 'dummy_scatter.csv')
 
-
+# Styles
 style_section_split =  {'height': '100vh', 
                         'padding': '20px', 
                         'display': 'flex', 
                         'justify-content': 'space-around'
                                 }
-
 style_scatter = {'width': '30%', 'display': 'inline-block', 'padding': '20px'}
-# Layout with GIF and dropdown for filtering Plot 1
+
+
+
 
 intro_layout = html.Div(
                     children=[
@@ -64,49 +68,6 @@ intro_layout = html.Div(
                            'padding': '1px',
                            'background-color':'#800000'}
                 )
-
-text_gis = "From 2019 to 2024, Chicago’s business landscape has seen businesses come and go, ebbing and flowing like the tides. Some thrived, while others faded away, leaving behind a changing cityscape. This evolution is not just numbers, but a story told through locations, each point on the map representing the rise and fall of a business in the heart of the city. Through GIS visualizations, we can track these shifts across neighborhoods—new businesses emerging and others disappearing, often influenced by factors like income levels and crime rates. The map reveals how the city's economy has grown and contracted in specific areas, reflecting both opportunities and challenges faced by entrepreneurs. As you explore this data, one question remains: Can you see a pattern? Is there a spatial connection between business success and the surrounding environment, a clue to how Chicago’s economy is shaped over time?"
-
-business_time_series = html.Div(
-                            children=[
-                                    html.Div(
-                                        children = [
-                                            html.H3("Like the winds that sweep through the city, businesses rise and fade",
-                                                    style={
-                                                        'text-align': 'left',
-                                                        'color': '#800000',
-                                                        'font-size': '30px',
-                                                        'font-family': 'Arial, sans-serif',
-                                                        'font-weight': 'bold',
-                                                        'max-width': '800px',
-                                                        'margin': '20px auto',
-                                                        'margin-top': '200px',
-                                                        }
-                                                    ),
-
-                                            html.P(text_gis,
-                                                    style={
-                                                        'text-align': 'left',
-                                                        'max-width': '800px',
-                                                        'margin': '20px auto',
-                                                        'font-size': '18px',
-                                                        'font-family': 'Arial, sans-serif',
-                                                        'color': 'black',
-                                                        'margin': '20px auto',
-                                                        'margin-bottom': '400px'
-                                                        }
-                                                    )
-                                            ],
-                                            style = {'padding': '20px'}
-                                            ),
-
-                                    html.Div(html.P("put GIS here"),
-                                        style={'width': '60%', 'display': 'inline-block', 'padding': '20px'}
-                                    )
-                                ],
-                            
-                            style = style_section_split
-                        )
 
 choropleths = html.Div(
                     children = [
@@ -222,22 +183,23 @@ app.layout = html.Div(
     style={'background-color': '#fff', 'height': '100%', 'font-family': 'Arial, sans-serif'}
 )
 
-# Callback to update Plot 1 based on selected category
+# Callback to update the map based on the selected month
 @app.callback(
-    [Output('scatter-left', 'figure')],
-    [Input('category-dropdown', 'value')]
+    Output("business-map", "figure"),
+    [Input("month-slider", "value")],
 )
+def update_map(selected_month_index):
+    selected_month = month_range[selected_month_index]  # Convert index to actual month (Period)
 
-def update_plots(selected_category):
-    # Filter data based on selected category
-    filtered_df = df[df['category'] == selected_category]
-    
-    # Generate all the scatter plots (1-6)
-    fig1 = create_scatter_plot(filtered_df, 'Scatter Plot 1', 'X Axis 1', 'Y Axis 1')
-    
-    # Return all six figures for the scatter plots
-    return fig1 
+    filtered_df = df_time_series
+    # Assign colors based on whether the business is still running
+    filtered_df["operate"] = filtered_df["final_date"].dt.to_period("M").apply(
+        lambda x: "Running" if x >= selected_month else "Stopped"
+    )
 
+    filtered_df = filtered_df.sort_values("operate")  # Sort to ensure "Stopped" comes last
+
+    return create_maps(filtered_df, selected_month)
 
 # Run the app
 if __name__ == '__main__':

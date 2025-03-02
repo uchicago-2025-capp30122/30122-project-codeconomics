@@ -2,7 +2,7 @@ import plotly.express as px
 
 def create_scatter_plot(df, x, y, x_axis_title, y_axis_title):
     fig = px.scatter(df, x, y,
-                     labels={'x': x_axis_title, 'y': y_axis_title},
+                     labels={x: x_axis_title, y: y_axis_title},
                      template='plotly_white')  # Simple white theme
     fig.update_traces(marker=dict(color='#800000'))
     fig.update_layout(

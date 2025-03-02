@@ -1,0 +1,1 @@
+Chicago’s business landscape is constantly evolving, with new businesses emerging and others shifting or ceasing operations. This visualization tracks businesses that started in 2022, mapping their presence across the city. As time progresses, businesses that no longer hold an active license for a specific operation turn red, signaling a shift in their status.
