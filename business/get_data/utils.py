@@ -62,3 +62,28 @@ ZIP_CODES = [
     "60637",
     "60619"
 ]
+
+
+LICENSE_DESCRIPTION_FOCUS = [
+    "Retail Food Establishment",
+    "Manufacturing Establishments",
+    "Consumption on Premises - Incidental Activity",
+    "Shared Kitchen User (Long Term)",
+    "Outdoor Patio",
+    "Caterer's Liquor License",
+    "Wholesale Food Establishment",
+    "Late Hour",
+    "Mobile Food License",
+    "Tobacco",
+    "Tavern",
+    "Package Goods",
+    "Food - Shared Kitchen - Supplemental",
+    "Food - Shared Kitchen",
+    "Shared Kitchen User (Short Term)",
+    "Navy Pier Kiosk License",
+    "Retail Food - Seasonal Lakefront Food Establishment",
+    "Pop-Up Food Est. User - Tier III",
+    "Pop-Up Food Est. User - Tier I",
+    "Pop-Up Food Est. User - Tier II",
+    ]
+
