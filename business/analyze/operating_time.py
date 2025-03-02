@@ -1,28 +1,31 @@
 import pandas as pd
 from pathlib import Path
 
-def operating_time(licenses_data: Path, date_filter = "2021-01-01"):
+def operating_time(licenses_data: Path, date_filter = True):
     """
     Calculates operating time of a license (dif between initial date and 
     revoked date) 
     """
     licenses = pd.read_json(licenses_data, orient="records")
 
-    licenses["license_start_date"] = pd.to_datetime(licenses["license_start_date"])
-    licenses["license_status_change_date"] = pd.to_datetime(licenses["license_status_change_date"])
+    licenses["license_start_date"] = pd.to_datetime(licenses.license_start_date)
+    licenses["license_status_change_date"] = pd.to_datetime(licenses.license_status_change_date)
+    licenses["expiration_date"] = pd.to_datetime(licenses.expiration_date, errors="coerce")
 
+    
     # group by license_number: Each license has a single license number 
     # that stays consistent throughout the lifetime of the license. 
     licenses_dur = licenses.groupby("license_number").agg(
         initial_date=("license_start_date", "min"),
-        final_date=("license_status_change_date", "max")
+        final_date=("expiration_date", "max")
         ).reset_index()
-    
+
     # (OPTIONAL) filter data for initial date greater than 2020
-    licenses_dur = licenses_dur[licenses_dur.initial_date >= date_filter]
+    if date_filter:
+        licenses_dur = licenses_dur[licenses_dur.initial_date >= "2020-01-01"]
 
     # make new variables of duration and dummy if the business closed
-    licenses_dur["closed"] = licenses_dur["final_date"].notna().astype(int)
+    licenses_dur["closed"] = (licenses_dur.final_date <= "2025-02-28").astype(int)
 
     today = pd.Timestamp.today()
     licenses_dur["duration"] = licenses_dur.apply(
@@ -41,7 +44,9 @@ def operating_time(licenses_data: Path, date_filter = "2021-01-01"):
                                "zip_code",
                                "neighborhood",
                                "license_description",
-                               "business_activity"]]
+                               "business_activity",
+                               "latitude",
+                               "longitude"]]
                      .drop_duplicates())
     
     
