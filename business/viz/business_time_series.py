@@ -4,12 +4,7 @@ from dash import dcc, html
 import plotly.express as px
 import pandas as pd
 import pathlib
-
-style_section_split = {'height': '100vh',
-                        'padding': '5px', 
-                        'display': 'flex', 
-                        'justify-content': 'space-around'
-                    }
+from .style import style_section_split
 
 
 # Set time frame for the Viz
@@ -101,17 +96,18 @@ business_time_series = html.Div(
                                                         'font-weight': 'bold',
                                                         'max-width': '800px',
                                                         'margin': '20px auto',
-                                                        'margin-top': '200px',
+                                                        'margin-top': '120px',
                                                         }
                                                     ),
 
-                                            html.P(children = [
-                                                text_gis_1,
-                                                html.Br(),
-                                                text_gis_2,
-                                                html.Br(),
-                                                text_gis_3
-                                            ],
+                                            html.P(
+                                                children = [
+                                                    text_gis_1,
+                                                    html.Br(),
+                                                    text_gis_2,
+                                                    html.Br(),
+                                                    text_gis_3
+                                                ],
                                                 style={
                                                     'text-align': 'left',
                                                     'max-width': '800px',
@@ -120,14 +116,16 @@ business_time_series = html.Div(
                                                     'font-family': 'Arial, sans-serif',
                                                     'color': 'black',
                                                     'margin': '20px auto',
-                                                    'margin-bottom': '400px'
-                                                    }
-                                                )
-                                            ],
-                                            style = {'padding': '20px'}
-                                            )
+                                                    'margin-bottom': '50px'
+                                                }
+                                            ),
 
-                                ],
+                                            html.Img(src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZkN3Ywd3Y4MDB4Z2UwcWZ1bTkwamN2bDEwdW54ZjVlODNlOWdncSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8nM6YNtvjuezzD7DNh/giphy.gif",
+                                                     style={'width': '30%', 'height': 'auto', 'margin-left':"200px"})       
+                                        ],
+                                        style = {'padding': '20px'}
+                                    )
+                            ],
                             
                             style = style_section_split
                         )
