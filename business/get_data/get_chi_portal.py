@@ -1,4 +1,4 @@
-import csv
+import copy
 import json
 import httpx
 from pathlib import Path
@@ -72,6 +72,7 @@ def get_request_chicago(start_url, params):
 def get_licenses(licenses_url=START_URL_LICENSES, params = DEFAULT_ARGS):
     
     licenses_data = []
+    params = copy.deepcopy(params)
     for zip in ZIP_CODES:
         n_rows = LIMIT
         params["zip_code"] = zip
@@ -95,6 +96,7 @@ def get_licenses(licenses_url=START_URL_LICENSES, params = DEFAULT_ARGS):
 def get_crime(crime_url=START_URL_CRIME, params = DEFAULT_ARGS):
 
     crime_data = []
+    params = copy.deepcopy(params)
     for year in CRIME_YEARS:
         n_rows = LIMIT
         params["year"] = year

@@ -2,6 +2,7 @@ from pathlib import Path
 import pandas as pd
 
 from .business_outlook import calculate_changes_business
+from .aggregate_lat_long import load_zipcodes
 
 def merge_data_survival():
     """
@@ -52,6 +53,10 @@ def merge_data_graphs():
     
     # calculate data of licenses for a given year
     licenses_zip = calculate_changes_business(2024)
+
+    # Load polygons
+    data_polygon = pd.DataFrame(load_zipcodes(), columns = ['zip_code','polygon'])
+    
     
     # load dataframes from CSV
     data_path = Path(__file__).parent.parent / "data"
@@ -62,11 +67,19 @@ def merge_data_graphs():
     licenses_zip["zip_code"] = licenses_zip["zip_code"].astype(str)
     median_income["zip_code"] = median_income["zip_code"].astype(str)
     crime_data["zip_code"] = crime_data["zip_code"].astype(str)
+    data_polygon['zip_code'] = data_polygon['zip_code'].astype(str)
 
     # merge data by zipcode
-    licenses_merged_by_zip = (licenses_zip
-                       .merge(median_income, on="zip_code", how="left")
-                       .merge(crime_data, on = "zip_code", how = "left"))
+    licenses_merged_by_zip = (data_polygon
+                              .merge(licenses_zip, on="zip_code", how="left")
+                              .merge(median_income, on="zip_code", how="left")
+                              .merge(crime_data, on = "zip_code", how = "left")
+                              )
     
+    # calculate new columns
+    licenses_merged_by_zip['crime_rate'] = licenses_merged_by_zip['total_crime']*1000/licenses_merged_by_zip['population_size']
+    licenses_merged_by_zip['theft_rate'] = licenses_merged_by_zip['total_theft']*1000/licenses_merged_by_zip['population_size']
+
+
     return licenses_merged_by_zip
 

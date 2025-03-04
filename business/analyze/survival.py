@@ -16,8 +16,9 @@ def survival_kmf():
     """
     # load cleaned data with duration and event dummy
     licenses = merge_data_survival()
-    #filtered_licenses = licenses[licenses.license_description.isin(LICENSE_DESCRIPTION_FOCUS)]
-    #filtered_licenses.closed.sum()
+    filtered_licenses = licenses[licenses.license_description.isin(LICENSE_DESCRIPTION_FOCUS) & 
+                                 (licenses.initial_date >= "2020-01-01")]
+    filtered_licenses.closed.sum()
 
 
     # Make survival analysis reggresion
