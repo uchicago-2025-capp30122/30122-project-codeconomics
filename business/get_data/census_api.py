@@ -4,12 +4,14 @@ import pathlib
 from .utils import ZIP_CODES
 
 url = 'https://api.census.gov/data/2023/acs/acs5?get=B06011_001E,B01003_001E&for=zip%20code%20tabulation%20area:*&key='
-path_data = pathlib.Path(__file__).parent.parent / 'data' 
+path_data = pathlib.Path(__file__).parent.parent / 'data'
 
 def get_census_data(api_key):
     """
-   This function will write csv from data in census website. The data is 
+   This function will write csv from data in census website. The data is
    median income by zip codes across for the whole countries in 2024
+   Arg:
+   (str) API key
     """
 
     census_link = f'{url}{api_key}'
