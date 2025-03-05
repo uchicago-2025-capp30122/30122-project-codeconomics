@@ -18,37 +18,24 @@ def merge_data_survival():
         -licenses_merged pandas DataFrame with columns from licenses, crime and
         income
     """
-    # define data path
-    data_path = Path(__file__).parent.parent / "data"
 
     # load dataframes from CSV
+    data_path = Path(__file__).parent.parent / "data"
     licenses_dur = pd.read_csv(data_path / "licenses_duration.csv")
     median_income = pd.read_csv(data_path / "median_income.csv")
     crime_data = pd.read_csv(data_path / "crime.csv")
-
-    # Load polygons
-    data_polygon = pd.DataFrame(load_zipcodes(), columns=["zip_code", "polygon"])
 
     # make the zip_code a str across the 3 dataframe
     licenses_dur["zip_code"] = licenses_dur["zip_code"].astype(str)
     median_income["zip_code"] = median_income["zip_code"].astype(str)
     crime_data["zip_code"] = crime_data["zip_code"].astype(str)
-    data_polygon["zip_code"] = data_polygon["zip_code"].astype(str)
 
     # merge data by zipcode
     licenses_merged = (
-        data_polygon.merge(licenses_dur, on="zip_code", how="left")
-        .merge(median_income, on="zip_code", how="left")
-        .merge(crime_data, on="zip_code", how="left")
+        licenses_dur.merge(median_income, on="zip_code", how="left").merge(
+            crime_data, on="zip_code", how="left"
+        )
     ).reset_index()
-
-    # make new variables
-    licenses_merged["crime_rate"] = (
-        licenses_merged["total_crime"] * 1000 / licenses_merged["population_size"]
-    )
-    licenses_merged["theft_rate"] = (
-        licenses_merged["total_theft"] * 1000 / licenses_merged["population_size"]
-    )
 
     return licenses_merged
 
@@ -74,14 +61,32 @@ def merge_data_graphs():
     median_income = pd.read_csv(data_path / "median_income.csv")
     crime_data = pd.read_csv(data_path / "crime.csv")
 
+    # Load polygons
+    data_polygon = pd.DataFrame(load_zipcodes(), columns=["zip_code", "polygon"])
+
     # make the zip_code a str across the 3 dataframe
     licenses_zip["zip_code"] = licenses_zip["zip_code"].astype(str)
     median_income["zip_code"] = median_income["zip_code"].astype(str)
     crime_data["zip_code"] = crime_data["zip_code"].astype(str)
+    data_polygon["zip_code"] = data_polygon["zip_code"].astype(str)
 
     # merge data by zipcode
-    licenses_merged_by_zip = licenses_zip.merge(
-        median_income, on="zip_code", how="left"
-    ).merge(crime_data, on="zip_code", how="left")
+    licenses_merged_by_zip = (
+        data_polygon.merge(licenses_zip, on="zip_code", how="left")
+        .merge(median_income, on="zip_code", how="left")
+        .merge(crime_data, on="zip_code", how="left")
+    ).reset_index()
+
+    # make new variables
+    licenses_merged_by_zip["crime_rate"] = (
+        licenses_merged_by_zip["total_crime"]
+        * 1000
+        / licenses_merged_by_zip["population_size"]
+    )
+    licenses_merged_by_zip["theft_rate"] = (
+        licenses_merged_by_zip["total_theft"]
+        * 1000
+        / licenses_merged_by_zip["population_size"]
+    )
 
     return licenses_merged_by_zip
