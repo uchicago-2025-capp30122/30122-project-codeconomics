@@ -3,7 +3,6 @@ from pathlib import Path
 
 from .get_data.get_chi_portal import get_licenses, get_crime
 from .get_data.census_api import get_census_data
-from .analyze.aggregate_lat_long import aggregate_by_zipcode
 from .analyze.operating_time import operating_time
 from .analyze.merge_data import merge_data_survival, merge_data_graphs
 from .analyze.survival import survival_kmf
@@ -28,16 +27,18 @@ def main():
     licenses_path = Path(__file__).parent / "data/licenses_.json"
     operating_time(licenses_path, False)
 
-    # 2.2 prepare crime data
-    aggregate_by_zipcode()
+    # 2.2 prepare crime and [income data]
+    # TODO: run crime functions and [income]
 
+    # 2.3 use merge datasets functions to merge data for following analysis and visualizations
+    license_individual = merge_data_survival()
+    licenses_merged_by_zip = merge_data_graphs()
 
-    # # 2.4 run survival regression
-    # business_kmf = survival_kmf()
-    # # TODO: FINISH SURVIVAL BY JORGE
+    # 2.4 run survival regression
+    business_kmf = survival_kmf()
 
-    # # Visualization (call dash)
-    
+    # Visualization
+
 
 
 
