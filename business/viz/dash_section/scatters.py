@@ -1,40 +1,15 @@
 from dash import dcc, html
-from business.analyze.business_outlook import get_macro_table
-from business.viz.plots import create_scatter_plot
-from business.viz.style import *
+from ...analyze.merge_data import merge_data_graphs
+from ...viz.plots import create_scatter_plot
+from ...viz.dash_section.style import *
 
 # # Load Data Macro
-df_macro = get_macro_table()
+df_macro = merge_data_graphs()
 df_macro = df_macro[df_macro['crime_rate'] < 1000] # Removing Outlier
 
 scatters = html.Div(
                     children=[
 
-                        html.Div(
-                            children=[
-                                html.H3("Business Activity, Income, and Crime: Unraveling the Connections",
-                                        style = {
-                                                'text-align': 'left',
-                                                'color': '#800000',
-                                                'font-size': '30px',
-                                                'font-family': 'Arial, sans-serif',
-                                                'font-weight': 'bold',
-                                                'max-width': '800px',
-                                                'margin': '20px auto',
-                                                'margin-top': '20px',
-                                        }),
-                                html.P("Can you spot some particular pattern between these variables?",
-                                       style = {
-                                                'text-align': 'left',
-                                                'max-width': '800px',
-                                                'margin': '20px auto',
-                                        })
-                                
-                                
-                            ]
-
-                        ),
-                        
                         html.Div(
                             children=[
                                 html.Div(
@@ -59,10 +34,39 @@ scatters = html.Div(
                                     style = style_scatter
                                 )
                             ],
-                            style={'padding': '20px', 
-                                   'display': 'flex', 
+                            style={'padding': '20px',
+                                   'display': 'flex',
                                    'justify-content': 'space-around'}
                         ),
+
+                        html.Div(
+                            children=[
+                                html.H3(children=[
+                                    "Business Activity, Income, and Crime: Unraveling the Connections"
+                                ],
+                                        style = {
+                                                'text-align': 'center',
+                                                'color': '#800000',
+                                                'font-size': '30px',
+                                                'font-family': 'Arial, sans-serif',
+                                                'font-weight': 'bold',
+                                                'max-width': '1600px',
+                                                'margin': '20px auto',
+                                                'margin-top': '20px',
+                                        }),
+                                html.P("Can you spot some particular pattern between these variables?",
+                                       style = {
+                                                'text-align': 'center',
+                                                'max-width': '1600px',
+                                                'margin': '20px auto',
+                                                'margin-bottom': '10px'
+                                        })
+
+
+                            ]
+
+                        ),
+
 
                         html.Div(
                             children=[
@@ -88,8 +92,8 @@ scatters = html.Div(
                                     style = style_scatter
                                 )
                             ],
-                            style={'padding': '20px', 
-                                   'display': 'flex', 
+                            style={'padding': '20px',
+                                   'display': 'flex',
                                    'justify-content': 'space-around'}
                         ),
                     ],
