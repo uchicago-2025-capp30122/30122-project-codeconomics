@@ -60,7 +60,7 @@ ZIP_CODES = [
     "60629",
     "60620",
     "60637",
-    "60619"
+    "60619",
 ]
 
 
@@ -85,5 +85,4 @@ LICENSE_DESCRIPTION_FOCUS = [
     "Pop-Up Food Est. User - Tier III",
     "Pop-Up Food Est. User - Tier I",
     "Pop-Up Food Est. User - Tier II",
-    ]
-
+]
