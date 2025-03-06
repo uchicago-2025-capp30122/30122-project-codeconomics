@@ -1,7 +1,7 @@
 from dash import dcc, html
 from ...analyze.merge_data import merge_data_graphs
-from ...viz.plots import create_scatter_plot
-from ...viz.dash_section.style import *
+from ..plots import create_scatter_plot
+from .style import *
 
 # # Load Data Macro
 df_macro = merge_data_graphs()

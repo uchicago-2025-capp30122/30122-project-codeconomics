@@ -5,6 +5,7 @@ from .viz.dash_section.intro import intro_layout
 from .viz.dash_section.choropleth import choropleths
 from .viz.dash_section.scatters import scatters
 from .viz.dash_section.business_time_series import df_time_series, month_range, create_maps, business_time_series
+from .viz.dash_section.survival_plot import survival_plots
 from .viz.dash_section.contributor import contributors
 
 path_data = pathlib.Path(__file__).parent.parent / 'business/data'
@@ -16,6 +17,7 @@ app.layout = html.Div(
     children=[
         intro_layout,
         business_time_series,
+        survival_plots,
         choropleths,
         scatters,
         contributors

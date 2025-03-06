@@ -1,8 +1,11 @@
 from dash import html
 from .style import *
+import pathlib
 
-image_hilman = "https://www.nbc.com/sites/nbcblog/files/2022/07/the-office-how-to-watch.jpg"
-image_jorge = "https://www.nbc.com/sites/nbcblog/files/2022/07/the-office-how-to-watch.jpg"
+path_photo = pathlib.Path(__file__).parent.parent.parent / 'assets'
+
+image_hilman = str(path_photo / 'hilman.png')
+image_jorge = str(path_photo / 'jorge.png')
 
 hilman = html.Div(
     children=[
@@ -11,7 +14,8 @@ hilman = html.Div(
             "width": "150px",
             "height": "150px",
             "border-radius": "50%",
-            "object-fit": "cover"
+            "object-fit": "cover",
+            "align":"center"
         }),
         html.H4('Hilman',style=style_text_contributor),
         html.P('MS-CAPP 2024',style=style_text_contributor)
@@ -34,7 +38,7 @@ jorge = html.Div(
 
 contributors = html.Div(
     children=[
-        html.H2('Contributors',
+        html.H2('Codeconomics',
                 style={
                     'text-align': 'center',
                     'color': '#D9D9D9',
@@ -43,12 +47,14 @@ contributors = html.Div(
                     'font-weight': 'bold',
                     'max-width': '800px',
                     'margin': '20px auto',
-                    'margin-top': '50px',
+                    'margin-top': '80px',
                 }),
         html.Div(children=[hilman, jorge],
                  style={'display': 'flex',
-                        'justify-content': 'space-around'})
+                        'justify-content': 'space-around',
+                        'padding':'0',
+                        'margin':'0'})
     ],
     style={'background-color':'#800000',
-           'padding':'0',
-           'margin':'0'})
+           'padding':'2',
+           'margin-top':'50px'})

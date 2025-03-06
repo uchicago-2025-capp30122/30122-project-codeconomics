@@ -89,13 +89,15 @@ def survival_kmf_by_quartiles(licenses, variable):
 
     # Customize layout
     fig.update_layout(
-        title=f"Kaplan-Meier Survival curve by quartiles: {variable}",
+        title=f"KMS curve by quartiles: {variable}",
         xaxis_title="Time (years)",
         yaxis_title="Operating Probability",
         margin=dict(l=20, r=20, t=50, b=20),
         height=400,
-        font=dict(family="Arial, sans-serif", size=14),
+        font=dict(family="Arial, sans-serif", size=12),
         template="plotly_white",
+        legend_y=-0.2,
+        legend=dict(orientation='h')
     )
 
     return fig
