@@ -50,8 +50,12 @@ This dataset contains 62 rows of polygons of zipcodes in Chicago. However, after
 
 At this step, we would just demonstrate to visualize the data of median income estimate by zipcodes from Census Bureau. The main reason why we could not demonstrate the process of getting the data is because it requires API key. Hence, let's just assume that we already have the data from pulling the repo in business/data directory!
 
-Step 1) Run `uv sync` to sincronize the libraries.
+Step 1) Set API Key in your terminal
+        export API_KEY="myusername-53cR3T"
+Step 2) Run `uv sync` to sincronize the libraries.
 
-Step 2) Run 'uv run python -m business.viz.histogram'
-This will open up a browser with localhost address and the histogram of median income by zipcodes in Chicago using plotly package!
+Step 3) Run `uv run -m business`
+
+Step 4) Run `uv run -m business.app`
+
 

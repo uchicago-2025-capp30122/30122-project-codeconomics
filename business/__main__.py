@@ -11,7 +11,7 @@ from .app import app
 def main():
     # 0. make sure to have APIKEY
     try:
-        API_KEY = "4bed36a5ef161756adaa36e8a4e8c687c57fb576"
+        API_KEY = os.environ["API_KEY"]
     except KeyError:
         raise Exception(
             "Make sure that you have set the API Key environment variable as "
