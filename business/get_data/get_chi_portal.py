@@ -73,17 +73,18 @@ def get_request_chicago(start_url, params):
 
 def get_licenses(licenses_url=START_URL_LICENSES, params=DEFAULT_ARGS):
     licenses_data = []
+    params_licenses = params.copy()
     for zip in ZIP_CODES:
         n_rows = LIMIT
-        params["zip_code"] = zip
-        params["$offset"] = 0
+        params_licenses["zip_code"] = zip
+        params_licenses["$offset"] = 0
 
         while n_rows == LIMIT:
-            licenses_request = json.loads(get_request_chicago(licenses_url, params))
+            licenses_request = json.loads(get_request_chicago(licenses_url, params_licenses))
             licenses_data.extend(licenses_request)
 
             n_rows = len(licenses_request)
-            params["$offset"] = params.get("$offset") + LIMIT
+            params_licenses["$offset"] = params_licenses.get("$offset") + LIMIT
 
     # write in json format
     output_filename = Path(__file__).parent.parent / "data/licenses_.json"
@@ -93,17 +94,18 @@ def get_licenses(licenses_url=START_URL_LICENSES, params=DEFAULT_ARGS):
 
 def get_crime(crime_url=START_URL_CRIME, params=DEFAULT_ARGS):
     crime_data = []
+    params_crime = params.copy()
     for year in CRIME_YEARS:
         n_rows = LIMIT
-        params["year"] = year
-        params["$offset"] = 0
-        params["$limit"] = LIMIT
+        params_crime["year"] = year
+        params_crime["$offset"] = 0
+        params_crime["$limit"] = LIMIT
 
         while n_rows == LIMIT:
-            crime_request = json.loads(get_request_chicago(crime_url, params))
+            crime_request = json.loads(get_request_chicago(crime_url, params_crime))
             crime_data.extend(crime_request)
             n_rows = len(crime_request)
-            params["$offset"] = params.get("$offset") + LIMIT
+            params_crime["$offset"] = params_crime.get("$offset") + LIMIT
 
     # write in json format
     output_filename = Path(__file__).parent.parent / "data/crime_.json"
