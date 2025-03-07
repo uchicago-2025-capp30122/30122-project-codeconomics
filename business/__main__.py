@@ -6,7 +6,7 @@ from .get_data.get_chi_portal import get_licenses, get_crime
 from .get_data.census_api import get_census_data
 from .analyze.aggregate_lat_long import aggregate_by_zipcode
 from .analyze.operating_time import operating_time
-from .app import app
+
 
 def main():
     # 0. make sure to have APIKEY
@@ -38,6 +38,8 @@ def main():
     # 2.2 prepare crime data
     print('Processing Data: Do Spatial Join')
     aggregate_by_zipcode()
+
+    print('Finished processing data: You can proceed to run the visualization')
 
 if __name__ == "__main__":
     main()

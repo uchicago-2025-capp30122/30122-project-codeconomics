@@ -1,61 +1,32 @@
-# Businesses Outlook and Economic Trends in Windy City by Codeconomics
-
+# Blown Away: The Rise and Fall of Businesses in the Windy City by Codeconomics
+ 
 ## Members
-
+ 
 - Hilman Hanivan <hanivan@uchicago.edu>
 - Jorge Guerrero <jguerrero95@uchicago.edu>
-
+ 
 ## Abstract
-
-This project aims to analyze businesses outlook trends in Chicago using data from businesses licenses data and crime events from the Chicago Data Portal (https://data.cityofchicago.org) and median income data from the US Census Bureau (https://www.census.gov).
-Our goal is to provide insights for policymakers on understanding businesses trends in the city of Chicago, by analizing different zipcodes and industries. 
-
-
-## Data Sources
-
-### Data Reconciliation Plan
-
-### Data Source #1: Business Licenses
-Business licenses issued by the Department of Business Affairs and Consumer Protection in the City of Chicago from 2002 to the present.
-
-- **URL**: https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr/about_data
-- **Type**: API
-            This is a public database taht can be requested via API without a APP_KEY
-- **Unique key**: Zip Code
-
-
-### Data Source #2: American Community Survey (ACS)   
-The American Community Survey (ACS) is an ongoing survey that provides vital information on a yearly basis about USA population. Information from the survey generates data that help inform how trillions of dollars in federal funds are distributed each year. The ACS provies information on jobs and occupations, educational attainment, veterans, whether people own or rent their homes, and other topics. We retrieve median income data by zip code from this source. After closer examination, there exists one zipcode (60666) missing from this dataset. That being said, we have median income estimates for 58 zipcodes in Chicago!
-
-- **URL**: https://www.census.gov/programs-surveys/acs
-- **Type**: API 
-    The user must get an API Key from the US Census Bureau in:  https://api.census.gov/data/key_signup.html
-- **Unique key**: Zip Code
-
-### Data Source #3: Crimes - 2001 to Present
-This dataset reflects reported incidents of crime (with the exception of murders where data exists for each victim) that occurred in the City of Chicago from 2001 to present, minus the most recent seven days. From this source we will aggregate number of events by zip code.
-
-- **URL**: https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2/about_data
-- **Type**: API
-            This is a public database that can be requested via API without a APP_KEY
-- **Unique key**: Zip Code (after cleaning)
-
-### Data Source #4: Zipcode Boundaries 
-This dataset contains 62 rows of polygons of zipcodes in Chicago. However, after close examination, there two zipcodes appear twice from the original source (60643 and 60707). That being said, we only have 59 zipcodes in Chicago! 
-
-- **URL**: https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-ZIP-Codes-Map/gdcf-axmw
-
-
+ 
+This project examines the patterns of business openings and closures in relation to key macroeconomic variables such as median income and crime rate. By combining geospatial and statistical analysis, we aim to uncover insights into how economic conditions and public safety shape business activity in Chicago. The work informs policy making on businesses trends in the city of Chicago. The project uses data from businesses licenses and crime events from the Chicago Data Portal (https://data.cityofchicago.org) and median income data from the US Census Bureau (https://www.census.gov). 
+ 
+ 
 ## How to Run
-
-At this step, we would just demonstrate to visualize the data of median income estimate by zipcodes from Census Bureau. The main reason why we could not demonstrate the process of getting the data is because it requires API key. Hence, let's just assume that we already have the data from pulling the repo in business/data directory!
-
-Step 1) Set API Key in your terminal
-        export API_KEY="myusername-53cR3T"
-Step 2) Run `uv sync` to sincronize the libraries.
-
-Step 3) Run `uv run -m business`
-
-Step 4) Run `uv run -m business.app`
-
-
+ 
+Step 1) Run `uv sync` to synchronize the libraries.
+ 
+Step 2) Set API Key in your terminal. For example: `$ export API_KEY="your_API_KEY"`
+ 
+Step 3) Run `uv run -m business` to get the data, clean it and analyze it
+ 
+Step 4) Run `uv run -m business.app` to make the visualizations
+ 
+## Visual output example
+![](Dash_blown_away.png)
+ 
+## Data Sources
+- Data Source #1: Business Licenses issued by the Department of Business Affairs and Consumer Protection in the City of Chicago from 2002 to the present. **URL**: https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr/about_data
+- Data Source #2: American Community Survey (ACS). **URL**: https://www.census.gov/programs-surveys/acs
+ 
+- Data Source #3: Crimes - 2001 to Present. **URL**: https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2/about_data
+ 
+- Data Source #4: Zipcode Boundaries. **URL**: https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-ZIP-Codes-Map/gdcf-axmw
