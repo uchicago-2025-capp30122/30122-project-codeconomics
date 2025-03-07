@@ -1,11 +1,8 @@
 from dash import html
 from .style import *
-import pathlib
 
-path_photo = pathlib.Path(__file__).parent.parent.parent / 'assets'
-
-image_hilman = str(path_photo / 'hilman.png')
-image_jorge = str(path_photo / 'jorge.png')
+image_hilman = "assets/hilman.png"
+image_jorge = "assets/jorge.png"
 
 hilman = html.Div(
     children=[
@@ -41,7 +38,7 @@ contributors = html.Div(
         html.H2('Codeconomics',
                 style={
                     'text-align': 'center',
-                    'color': '#D9D9D9',
+                    'color': 'orange',
                     'font-size': '50px',
                     'font-family': 'Arial, sans-serif',
                     'font-weight': 'bold',
