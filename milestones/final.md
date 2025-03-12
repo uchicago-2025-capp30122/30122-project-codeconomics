@@ -37,7 +37,7 @@ This dataset reflects reported incidents of crime (with the exception of murders
 - **Type**: API. This is a public database that can be requested via API without a APP_KEY
 - **Unique key**: Zip Code (after cleaning)
 - **Challenges**: The database has currently 1.06 million observations, which makes it hard to download or request in one query, the solution was to request it by year for the years of interest. The second challenge was that the data does not contain a zip code variable, only longitude and latitude, thus it was processed to locate each observation in a zip code polygon.
-- **How it is used**: We retrieved the data by year and used pagination to be able to retrieve the data for the years of interest. Then the number of events were aggregated by type and zip code to be merged with the licenses data by zip code to assess its influence on new and closed businesses as well as rate of closing businesses. 
+- **How it is used**: We retrieved the data by year and used pagination to be able to retrieve the data for the years of interest. Then the number of events were aggregated by type and zip code to be merged with the licenses data by zip code to assess its influence on new and closed businesses as well as rate of closing businesses. In the final visualization, we drop zip codes that have crime rate higher than 1000 cases/1000 individuals which are 60602, 60603, 60604 which are commercial areas and all have very little population size.
  
 ### Data Source #4: Zip Code Boundaries
 Dataset with 62 rows of polygons of zip codes in Chicago. 
